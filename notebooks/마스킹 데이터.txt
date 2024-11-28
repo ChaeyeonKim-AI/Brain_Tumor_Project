@@ -1,17 +1,15 @@
+# 프로젝트의 진행 순서를 짰습니다. 파이팅해봅시다.
 # import를 한다
 
 import os
 from glob import glob
 import pathlib
 import cv2
-
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-
 from sklearn.model_selection import train_test_split
-
 os.environ['GRPC_VERBOSITY']= 'NONE' # 경고 메시지를 무시하는 부분이다.
 os.environ['GLOG_minloglevel']= '2'
 os.environ['TF_CPP_MIN_LOG_LEVEL']= '3'
