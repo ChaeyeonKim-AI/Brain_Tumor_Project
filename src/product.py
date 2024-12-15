@@ -1,7 +1,5 @@
 # product.py
-# terminal command: streamlit run product.py
-# OPENAI_API_KEY='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'
-# 
+# terminal command: streamlit run product.py 
 
 import os
 import streamlit as st
