@@ -1,7 +1,7 @@
 # product.py
-# streamlit run product.py
+# terminal command: streamlit run product.py
 # OPENAI_API_KEY='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'
-
+# 
 import os
 # from dotenv import load_dotenv
 import streamlit as st
@@ -10,8 +10,7 @@ from langchain.schema import HumanMessage, SystemMessage
 
 # 환경 변수 로드
 # load_dotenv()
-OPENAI_API_KEY='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'
-openai_api_key = OPENAI_API_KEY
+openai_api_key = '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'
 # openai_api_key = os.getenv("OPENAI_API_KEY")
 
 # LangChain ChatOpenAI 설정
