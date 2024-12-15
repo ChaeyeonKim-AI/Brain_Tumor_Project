@@ -1,19 +1,15 @@
 # product.py
 # streamlit run product.py
-# OPENAI_API_KEY=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
-# 종양 중심과 뇌 중심 간 거리: 30.5 픽셀
-# 종양 크기: 1050 픽셀
-# 종양 불규칙성: 12 (꼭짓점 수)
-# 위험도 점수: 453.7 (가중치 기반 계산된 점수)
+# OPENAI_API_KEY='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'
 
 import os
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 import streamlit as st
 from langchain_community.chat_models import ChatOpenAI
 from langchain.schema import HumanMessage, SystemMessage
 
 # 환경 변수 로드
-load_dotenv()
+# load_dotenv()
 OPENAI_API_KEY='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'
 openai_api_key = OPENAI_API_KEY
 # openai_api_key = os.getenv("OPENAI_API_KEY")
