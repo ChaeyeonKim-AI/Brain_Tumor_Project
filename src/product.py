@@ -52,32 +52,34 @@ if st.button("결과 분석"):
             )
         )
 
-        # LLM 호출
-        response = chat_model([system_message, user_message])
-        
-        # 결과 출력
-        st.success("분석이 완료되었습니다.")
-
-        # OpenAI GPT 결과를 3개 파트로 나누기
+        # LLM 호출 및 결과 처리
+        response = chat_model.invoke([system_message, user_message])
         response_content = response.content
+
+        # LLM 응답 확인
+        st.write("LLM 응답 확인:", response_content)
 
         # 구분자 "###"를 기준으로 파트 나누기
         parts = response_content.split("###")
 
-        # 파트별 출력
-        # 1. 분석 결과
+        # 분석 결과
         st.subheader("🔍 분석 결과")
         st.write("종양의 특성과 위치를 바탕으로 분석된 결과입니다.")
-        st.write(parts[0])
-        st.divider()  # 구분선 추가
-
-        # 2. 의학적 권고 사항
-        st.subheader("🩺 의학적 권고 사항")
-        st.write("종양의 위험도와 현재 상태를 바탕으로 다음과 같은 조치를 권장합니다:")
-        st.write(parts[1])
+        st.write(parts[0] if len(parts) > 0 else "분석 결과가 없습니다.")
         st.divider()
 
-        # 3. 최종 요약
-        st.subheader("👩‍⚕️ 최종 요약")
-        st.write("현재 관찰된 종양의 특성과 위험도에 대한 종합적인 요약을 제공합니다.")
-        st.write(parts[2])
+        # 의학적 권고 사항
+        if len(parts) > 1:
+            st.subheader("🩺 의학적 권고 사항")
+            st.write("종양의 위험도와 현재 상태를 바탕으로 다음과 같은 조치를 권장합니다:")
+            st.write(parts[1])
+        else:
+            st.warning("의학적 권고 사항이 존재하지 않습니다.")
+
+        # 최종 요약
+        if len(parts) > 2:
+            st.subheader("👩‍⚕️ 최종 요약")
+            st.write("현재 관찰된 종양의 특성과 위험도에 대한 종합적인 요약을 제공합니다.")
+            st.write(parts[2])
+        else:
+            st.warning("최종 요약이 존재하지 않습니다.")
