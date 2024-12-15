@@ -2,21 +2,20 @@
 # terminal command: streamlit run product.py
 # OPENAI_API_KEY='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'
 # 
+
 import os
-# from dotenv import load_dotenv
 import streamlit as st
 from langchain_community.chat_models import ChatOpenAI
 from langchain.schema import HumanMessage, SystemMessage
 
-# 환경 변수 로드
-# load_dotenv()
-openai_api_key = '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'
-# openai_api_key = os.getenv("OPENAI_API_KEY")
+# 환경 변수 불러오기
+openai_api_key = os.getenv("OPENAI_API_KEY")
 
 # LangChain ChatOpenAI 설정
 chat_model = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.7, openai_api_key=openai_api_key)
 
 # Streamlit UI
+
 st.title("딥러닝 기반 뇌종양 진단 보고서")
 
 # 사용자 입력값
