@@ -44,16 +44,12 @@ if st.button("결과 분석"):
                 f"- 종양 불규칙성(꼭짓점 개수): {irregularity}\n"
                 f"- 위험도 점수: {risk_score:.2f}\n\n"
                 "아래와 같은 형식으로 답변을 작성해주세요. 각 섹션은 반드시 '###'로 구분되어야 합니다:\n"
-                "### 분석 결과\n"
+                "### 🔍 분석 결과\n"
                 "종양의 위치, 크기, 불규칙성 및 위험도에 대한 분석 결과를 작성해주세요.\n"
-                "### 의학적 권고 사항\n"
+                "### 🩺 의학적 권고 사항\n"
                 "종양의 상태를 고려하여 필요한 의학적 권고 사항을 작성해주세요.\n"
-                "### 최종 요약\n"
-                "환자에게 전달할 종합적인 요약을 작성해주세요.\n\n"
-                "위험도 점수에 따라 다음 카테고리를 참고하세요:\n"
-                "- 위험도 점수 <= 33: 낮은 위험도\n"
-                "- 34 <= 위험도 점수 <= 66: 중간 위험도\n"
-                "- 위험도 점수 > 66: 높은 위험도"
+                "### 👩‍⚕️ 최종 요약\n"
+                "환자에게 전달할 종합적인 요약을 작성해주세요."
             )
         )
 
@@ -61,33 +57,26 @@ if st.button("결과 분석"):
         response = chat_model([system_message, user_message])
         response_content = response.content
 
-        # LLM 응답 확인
-        st.write("**LLM 응답 확인:**", response_content)
-
         # 구분자 "###"를 기준으로 파트 나누기
-        parts = response_content.split("###")
+        parts = [part.strip() for part in response_content.split("###") if part.strip()]
 
-        # 분석 결과 출력
-        st.subheader("🔍 분석 결과")
-        if len(parts) > 1:
-            st.write(parts[1].strip())
+        # 파트별 내용 출력 (중복 방지)
+        if len(parts) >= 3:
+            # 1. 분석 결과
+            st.subheader("🔍 분석 결과")
+            st.write(parts[0])  # 첫 번째 파트
+
+            st.divider()
+
+            # 2. 의학적 권고 사항
+            st.subheader("🩺 의학적 권고 사항")
+            st.write(parts[1])  # 두 번째 파트
+
+            st.divider()
+
+            # 3. 최종 요약
+            st.subheader("👩‍⚕️ 최종 요약")
+            st.write(parts[2])  # 세 번째 파트
         else:
-            st.warning("분석 결과가 존재하지 않습니다.")
+            st.error("LLM 응답이 올바른 형식으로 반환되지 않았습니다. 입력 데이터를 확인해주세요.")
 
-        st.divider()
-
-        # 의학적 권고 사항 출력
-        st.subheader("🩺 의학적 권고 사항")
-        if len(parts) > 2:
-            st.write(parts[2].strip())
-        else:
-            st.warning("의학적 권고 사항이 존재하지 않습니다.")
-
-        st.divider()
-
-        # 최종 요약 출력
-        st.subheader("👩‍⚕️ 최종 요약")
-        if len(parts) > 3:
-            st.write(parts[3].strip())
-        else:
-            st.warning("최종 요약이 존재하지 않습니다.")
