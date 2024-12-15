@@ -51,35 +51,38 @@ if st.button("결과 분석"):
                 "- 위험도 점수 > 66: 높은 위험도"
             )
         )
-
-        # LLM 호출 및 결과 처리
-        response = chat_model.invoke([system_message, user_message])
+        
+        # LLM 호출 및 응답 처리
+        response = chat_model([system_message, user_message])
         response_content = response.content
 
         # LLM 응답 확인
-        st.write("LLM 응답 확인:", response_content)
+        st.write("**LLM 응답 확인:**", response_content)
 
         # 구분자 "###"를 기준으로 파트 나누기
         parts = response_content.split("###")
 
-        # 분석 결과
+        # 분석 결과 출력
         st.subheader("🔍 분석 결과")
-        st.write("종양의 특성과 위치를 바탕으로 분석된 결과입니다.")
-        st.write(parts[0] if len(parts) > 0 else "분석 결과가 없습니다.")
+        if len(parts) > 1:
+            st.write(parts[1].strip())
+        else:
+            st.warning("분석 결과가 존재하지 않습니다.")
+
         st.divider()
 
-        # 의학적 권고 사항
-        if len(parts) > 1:
-            st.subheader("🩺 의학적 권고 사항")
-            st.write("종양의 위험도와 현재 상태를 바탕으로 다음과 같은 조치를 권장합니다:")
-            st.write(parts[1])
+        # 의학적 권고 사항 출력
+        st.subheader("🩺 의학적 권고 사항")
+        if len(parts) > 2:
+            st.write(parts[2].strip())
         else:
             st.warning("의학적 권고 사항이 존재하지 않습니다.")
 
-        # 최종 요약
-        if len(parts) > 2:
-            st.subheader("👩‍⚕️ 최종 요약")
-            st.write("현재 관찰된 종양의 특성과 위험도에 대한 종합적인 요약을 제공합니다.")
-            st.write(parts[2])
+        st.divider()
+
+        # 최종 요약 출력
+        st.subheader("👩‍⚕️ 최종 요약")
+        if len(parts) > 3:
+            st.write(parts[3].strip())
         else:
             st.warning("최종 요약이 존재하지 않습니다.")
